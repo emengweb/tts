@@ -2103,20 +2103,71 @@ const HTML_PAGE = `
 
 export default {
     async fetch(request, env, ctx) {
-        return handleRequest(request);
+        return handleRequest(request, env);
     }
 };
 
-async function handleRequest(request) {
+function getConfiguredApiKey(env) {
+    const apiKey = env && typeof env.API_KEY === "string" ? env.API_KEY.trim() : "";
+    return apiKey;
+}
+
+function getRequestApiKey(request) {
+    const authorization = request.headers.get("Authorization") || request.headers.get("authorization") || "";
+    const bearerMatch = authorization.match(/^Bearer\s+(.+)$/i);
+    if (bearerMatch && bearerMatch[1]) {
+        return bearerMatch[1].trim();
+    }
+
+    return (request.headers.get("x-api-key") || request.headers.get("X-API-Key") || "").trim();
+}
+
+function buildUnauthorizedResponse() {
+    return new Response(JSON.stringify({
+        error: {
+            message: "Unauthorized",
+            type: "authentication_error",
+            param: null,
+            code: "invalid_api_key"
+        }
+    }), {
+        status: 401,
+        headers: {
+            "Content-Type": "application/json",
+            ...makeCORSHeaders()
+        }
+    });
+}
+
+export function validateApiKeyRequest(request, env) {
+    const configuredApiKey = getConfiguredApiKey(env);
+    if (!configuredApiKey) {
+        return null;
+    }
+
+    const requestApiKey = getRequestApiKey(request);
+    if (requestApiKey && requestApiKey === configuredApiKey) {
+        return null;
+    }
+
+    return buildUnauthorizedResponse();
+}
+
+export async function handleRequest(request, env = {}) {
     if (request.method === "OPTIONS") {
         return handleOptions(request);
     }
 
-
-
-
     const requestUrl = new URL(request.url);
     const path = requestUrl.pathname;
+    const protectedPaths = new Set(["/v1/audio/speech", "/v1/audio/transcriptions"]);
+
+    if (protectedPaths.has(path)) {
+        const unauthorizedResponse = validateApiKeyRequest(request, env);
+        if (unauthorizedResponse) {
+            return unauthorizedResponse;
+        }
+    }
 
     // 返回前端页面
     if (path === "/" || path === "/index.html") {
@@ -2547,7 +2598,7 @@ function makeCORSHeaders() {
     return {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,HEAD,POST,OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, x-api-key",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, x-api-key",
         "Access-Control-Max-Age": "86400"
     };
 }
@@ -2923,4 +2974,3 @@ async function handleAudioTranscription(request) {
         });
     }
 }
-
