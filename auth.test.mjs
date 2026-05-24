@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import worker, { handleRequest, validateApiKeyRequest } from "./index.js";
+import worker, { buildWorkerAuthHeaderMap, getHtmlTemplate, handleRequest, validateApiKeyRequest } from "./index.js";
 
 test("validateApiKeyRequest allows requests when API_KEY is not configured", () => {
     const request = new Request("https://example.com/v1/audio/speech", {
@@ -57,4 +57,21 @@ test("transcriptions route accepts Authorization bearer when API_KEY matches", a
     assert.equal(response.status, 400);
     const payload = await response.json();
     assert.equal(payload.error.code, "invalid_content_type");
+});
+
+test("buildWorkerAuthHeaderMap returns x-api-key header only when api key exists", () => {
+    assert.deepEqual(buildWorkerAuthHeaderMap(" secret-key "), {
+        "x-api-key": "secret-key"
+    });
+    assert.deepEqual(buildWorkerAuthHeaderMap(""), {});
+    assert.deepEqual(buildWorkerAuthHeaderMap(null), {});
+});
+
+test("html template includes worker api key input and multilingual voice groups", () => {
+    const html = getHtmlTemplate();
+    assert.match(html, /id="workerApiKey"/);
+    assert.match(html, /placeholder="Optional\. Required when your Worker API_KEY is enabled\."/);
+    assert.match(html, /<optgroup label="English"/);
+    assert.match(html, /<optgroup label="Japanese"/);
+    assert.match(html, /<optgroup label="Russian"/);
 });

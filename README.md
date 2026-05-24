@@ -10,7 +10,7 @@
 ## ✨ 特性
 
 ### 🎯 核心功能
-- 🗣️ **文字转语音(TTS)** - 基于Microsoft Edge TTS，支持20+种中文语音
+- 🗣️ **文字转语音(TTS)** - 基于Microsoft Edge TTS，支持中英日韩法德西俄等多语言语音
 - 🎧 **语音转文字(STT)** - 集成硅基流动API，高精度语音识别
 - 🔄 **双向处理** - 智能模式切换，语音与文字无缝转换
 - 🌍 **多语言支持** - 支持中文、英文、日文、韩文、西班牙文、法文、德文、俄文
@@ -27,6 +27,7 @@
 - 🔗 **API 兼容** - 兼容 OpenAI TTS API 格式
 - 🎵 **多音频格式** - 支持mp3、wav、m4a、flac、aac等9种音频格式
 - 🔐 **灵活配置** - 支持默认Token和自定义Token配置
+- 🔑 **Worker 鉴权支持** - 前端可配置 Worker API Key，自动附加到 TTS/STT 请求
 - 🎨 **现代化UI** - 优雅的卡片式设计，直观的模式切换
 
 ## 🚀 一键部署
@@ -53,6 +54,12 @@
 
 未携带或错误时会返回 `401`.
 
+网页前端也已经内置了 `Worker API Key` 输入框：
+
+- 输入后会保存在浏览器本地 `localStorage`
+- 页面发起的 TTS / STT 请求会自动附加 `x-api-key`
+- 未配置 `API_KEY` 的 Worker 无需填写
+
 
 
 ## 🎯 使用方法
@@ -65,15 +72,17 @@
 3. 选择输入方式：手动输入或上传txt文件
 4. 在文本框中输入要转换的文字，或上传txt文件
 5. 选择喜欢的语音、语速、音调、语音风格等参数
-6. 点击"开始生成语音"按钮
-7. 播放生成的音频或下载 MP3 文件
+6. 如果 Worker 开启了 `API_KEY`，在 `Worker API Key` 输入框填入密钥
+7. 点击"开始生成语音"按钮
+8. 播放生成的音频或下载 MP3 文件
 
 #### 语音转文字模式
 1. 点击页面顶部的"语音转文字"按钮切换模式
 2. 上传音频文件（支持mp3、wav、m4a等9种格式，最大10MB）
 3. 选择Token配置：使用默认Token或输入自定义硅基流动Token
-4. 点击"开始语音转录"按钮
-5. 查看转录结果，支持复制、编辑或直接转为语音
+4. 如果 Worker 开启了 `API_KEY`，在 `Worker API Key` 输入框填入密钥
+5. 点击"开始语音转录"按钮
+6. 查看转录结果，支持复制、编辑或直接转为语音
 
 #### 🌍 多语言切换
 - 点击右上角的语言切换器
@@ -149,7 +158,7 @@ curl -X POST "https://your-worker.workers.dev/v1/audio/transcriptions" \
 
 ## 🎨 支持的语音
 
-### 女声
+### 中文
 - `zh-CN-XiaoxiaoNeural` - 晓晓 (温柔)
 - `zh-CN-XiaoyiNeural` - 晓伊 (甜美)
 - `zh-CN-XiaochenNeural` - 晓辰 (知性)
@@ -163,8 +172,6 @@ curl -X POST "https://your-worker.workers.dev/v1/audio/transcriptions" \
 - `zh-CN-XiaoyanNeural` - 晓颜 (柔美)
 - `zh-CN-XiaoyouNeural` - 晓悠 (悠扬)
 - `zh-CN-XiaozhenNeural` - 晓甄 (端庄)
-
-### 男声
 - `zh-CN-YunxiNeural` - 云希 (清朗)
 - `zh-CN-YunyangNeural` - 云扬 (阳光)
 - `zh-CN-YunjianNeural` - 云健 (稳重)
@@ -173,6 +180,15 @@ curl -X POST "https://your-worker.workers.dev/v1/audio/transcriptions" \
 - `zh-CN-YunxiaNeural` - 云夏 (热情)
 - `zh-CN-YunyeNeural` - 云野 (野性)
 - `zh-CN-YunzeNeural` - 云泽 (深沉)
+
+### 其他语言
+- English: `en-US-*`, `en-GB-*`, `en-AU-*`
+- Japanese: `ja-JP-*`
+- Korean: `ko-KR-*`
+- French: `fr-FR-*`
+- German: `de-DE-*`
+- Spanish: `es-ES-*`, `es-MX-*`
+- Russian: `ru-RU-*`
 
 ## ⚙️ API 参数
 

@@ -576,6 +576,32 @@ const HTML_PAGE = `
             justify-content: center;
             gap: 20px;
         }
+
+        .shared-settings {
+            max-width: 900px;
+            margin: 0 auto 30px;
+            padding: 0 20px;
+        }
+
+        .shared-settings-panel {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            padding: 24px 28px;
+        }
+
+        .shared-settings-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 0;
+        }
+
+        .setting-help {
+            margin-top: 8px;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
         
         .mode-btn {
             display: flex;
@@ -988,6 +1014,18 @@ const HTML_PAGE = `
                 <span data-i18n="mode.transcription">Speech to Text</span>
             </button>
         </div>
+
+        <div class="shared-settings">
+            <div class="shared-settings-panel">
+                <div class="shared-settings-grid">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label" for="workerApiKey" data-i18n="settings.workerApiKey.label">Worker API Key</label>
+                        <input class="form-input" id="workerApiKey" type="password" autocomplete="off" data-i18n-placeholder="settings.workerApiKey.placeholder" placeholder="Optional. Required when your Worker API_KEY is enabled.">
+                        <p class="setting-help" data-i18n="settings.workerApiKey.help">Used for both TTS and STT requests. Stored only in this browser.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <div class="main-content">
             <div class="form-container">
@@ -1052,30 +1090,139 @@ const HTML_PAGE = `
                         <div class="form-group">
                             <label class="form-label" for="voice">语音选择</label>
                             <select class="form-select" id="voice">
-                                <option value="zh-CN-XiaoxiaoNeural">晓晓 (女声·温柔)</option>
-                                <option value="zh-CN-YunxiNeural">云希 (男声·清朗)</option>
-                                <option value="zh-CN-YunyangNeural">云扬 (男声·阳光)</option>
-                                <option value="zh-CN-XiaoyiNeural">晓伊 (女声·甜美)</option>
-                                <option value="zh-CN-YunjianNeural">云健 (男声·稳重)</option>
-                                <option value="zh-CN-XiaochenNeural">晓辰 (女声·知性)</option>
-                                <option value="zh-CN-XiaohanNeural">晓涵 (女声·优雅)</option>
-                                <option value="zh-CN-XiaomengNeural">晓梦 (女声·梦幻)</option>
-                                <option value="zh-CN-XiaomoNeural">晓墨 (女声·文艺)</option>
-                                <option value="zh-CN-XiaoqiuNeural">晓秋 (女声·成熟)</option>
-                                <option value="zh-CN-XiaoruiNeural">晓睿 (女声·智慧)</option>
-                                <option value="zh-CN-XiaoshuangNeural">晓双 (女声·活泼)</option>
-                                <option value="zh-CN-XiaoxuanNeural">晓萱 (女声·清新)</option>
-                                <option value="zh-CN-XiaoyanNeural">晓颜 (女声·柔美)</option>
-                                <option value="zh-CN-XiaoyouNeural">晓悠 (女声·悠扬)</option>
-                                <option value="zh-CN-XiaozhenNeural">晓甄 (女声·端庄)</option>
-                                <option value="zh-CN-YunfengNeural">云枫 (男声·磁性)</option>
-                                <option value="zh-CN-YunhaoNeural">云皓 (男声·豪迈)</option>
-                                <option value="zh-CN-YunxiaNeural">云夏 (男声·热情)</option>
-                                <option value="zh-CN-YunyeNeural">云野 (男声·野性)</option>
-                                <option value="zh-CN-YunzeNeural">云泽 (男声·深沉)</option>
+                                <optgroup label="Chinese" data-i18n-label="voice.group.chinese">
+                                    <option value="zh-CN-XiaoxiaoNeural">晓晓 Xiaoxiao (女声·温柔)</option>
+                                    <option value="zh-CN-YunxiNeural">云希 Yunxi (男声·清朗)</option>
+                                    <option value="zh-CN-YunyangNeural">云扬 Yunyang (男声·阳光)</option>
+                                    <option value="zh-CN-XiaoyiNeural">晓伊 Xiaoyi (女声·甜美)</option>
+                                    <option value="zh-CN-YunjianNeural">云健 Yunjian (男声·稳重)</option>
+                                    <option value="zh-CN-XiaochenNeural">晓辰 Xiaochen (女声·知性)</option>
+                                    <option value="zh-CN-XiaohanNeural">晓涵 Xiaohan (女声·优雅)</option>
+                                    <option value="zh-CN-XiaomengNeural">晓梦 Xiaomeng (女声·梦幻)</option>
+                                    <option value="zh-CN-XiaomoNeural">晓墨 Xiaomo (女声·文艺)</option>
+                                    <option value="zh-CN-XiaoqiuNeural">晓秋 Xiaoqiu (女声·成熟)</option>
+                                    <option value="zh-CN-XiaoruiNeural">晓睿 Xiaorui (女声·智慧)</option>
+                                    <option value="zh-CN-XiaoshuangNeural">晓双 Xiaoshuang (女声·活泼)</option>
+                                    <option value="zh-CN-XiaoxuanNeural">晓萱 Xiaoxuan (女声·清新)</option>
+                                    <option value="zh-CN-XiaoyanNeural">晓颜 Xiaoyan (女声·柔美)</option>
+                                    <option value="zh-CN-XiaoyouNeural">晓悠 Xiaoyou (女声·悠扬)</option>
+                                    <option value="zh-CN-XiaozhenNeural">晓甄 Xiaozhen (女声·端庄)</option>
+                                    <option value="zh-CN-YunfengNeural">云枫 Yunfeng (男声·磁性)</option>
+                                    <option value="zh-CN-YunhaoNeural">云皓 Yunhao (男声·豪迈)</option>
+                                    <option value="zh-CN-YunxiaNeural">云夏 Yunxia (男声·热情)</option>
+                                    <option value="zh-CN-YunyeNeural">云野 Yunye (男声·野性)</option>
+                                    <option value="zh-CN-YunzeNeural">云泽 Yunze (男声·深沉)</option>
+                                </optgroup>
+                                <optgroup label="English" data-i18n-label="voice.group.english">
+                                    <option value="en-US-JennyNeural">Jenny (Female, US)</option>
+                                    <option value="en-US-GuyNeural">Guy (Male, US)</option>
+                                    <option value="en-US-AriaNeural">Aria (Female, US)</option>
+                                    <option value="en-US-DavisNeural">Davis (Male, US)</option>
+                                    <option value="en-US-AmberNeural">Amber (Female, US)</option>
+                                    <option value="en-US-AnaNeural">Ana (Female, Child, US)</option>
+                                    <option value="en-US-AndrewNeural">Andrew (Male, US)</option>
+                                    <option value="en-US-AshleyNeural">Ashley (Female, US)</option>
+                                    <option value="en-US-BrandonNeural">Brandon (Male, US)</option>
+                                    <option value="en-US-ChristopherNeural">Christopher (Male, US)</option>
+                                    <option value="en-US-CoraNeural">Cora (Female, US)</option>
+                                    <option value="en-US-ElizabethNeural">Elizabeth (Female, US)</option>
+                                    <option value="en-US-EricNeural">Eric (Male, US)</option>
+                                    <option value="en-US-JacobNeural">Jacob (Male, US)</option>
+                                    <option value="en-US-JaneNeural">Jane (Female, US)</option>
+                                    <option value="en-US-JasonNeural">Jason (Male, US)</option>
+                                    <option value="en-US-MichelleNeural">Michelle (Female, US)</option>
+                                    <option value="en-US-MonicaNeural">Monica (Female, US)</option>
+                                    <option value="en-US-NancyNeural">Nancy (Female, US)</option>
+                                    <option value="en-US-RogerNeural">Roger (Male, US)</option>
+                                    <option value="en-US-SaraNeural">Sara (Female, US)</option>
+                                    <option value="en-US-SteffanNeural">Steffan (Male, US)</option>
+                                    <option value="en-US-TonyNeural">Tony (Male, US)</option>
+                                    <option value="en-GB-SoniaNeural">Sonia (Female, UK)</option>
+                                    <option value="en-GB-RyanNeural">Ryan (Male, UK)</option>
+                                    <option value="en-GB-LibbyNeural">Libby (Female, UK)</option>
+                                    <option value="en-GB-MaisieNeural">Maisie (Female, Child, UK)</option>
+                                    <option value="en-AU-NatashaNeural">Natasha (Female, AU)</option>
+                                    <option value="en-AU-WilliamNeural">William (Male, AU)</option>
+                                </optgroup>
+                                <optgroup label="Japanese" data-i18n-label="voice.group.japanese">
+                                    <option value="ja-JP-NanamiNeural">Nanami 七海 (女性)</option>
+                                    <option value="ja-JP-KeitaNeural">Keita 圭太 (男性)</option>
+                                    <option value="ja-JP-AoiNeural">Aoi 葵 (女性)</option>
+                                    <option value="ja-JP-DaichiNeural">Daichi 大地 (男性)</option>
+                                    <option value="ja-JP-MayuNeural">Mayu 真由 (女性)</option>
+                                    <option value="ja-JP-NaokiNeural">Naoki 直樹 (男性)</option>
+                                    <option value="ja-JP-ShioriNeural">Shiori 栞 (女性)</option>
+                                </optgroup>
+                                <optgroup label="Korean" data-i18n-label="voice.group.korean">
+                                    <option value="ko-KR-SunHiNeural">SunHi 선희 (여성)</option>
+                                    <option value="ko-KR-InJoonNeural">InJoon 인준 (남성)</option>
+                                    <option value="ko-KR-BongJinNeural">BongJin 봉진 (남성)</option>
+                                    <option value="ko-KR-GookMinNeural">GookMin 국민 (남성)</option>
+                                    <option value="ko-KR-JiMinNeural">JiMin 지민 (여성)</option>
+                                    <option value="ko-KR-SeoHyeonNeural">SeoHyeon 서현 (여성)</option>
+                                    <option value="ko-KR-SoonBokNeural">SoonBok 순복 (여성)</option>
+                                    <option value="ko-KR-YuJinNeural">YuJin 유진 (여성)</option>
+                                </optgroup>
+                                <optgroup label="French" data-i18n-label="voice.group.french">
+                                    <option value="fr-FR-DeniseNeural">Denise (Femme)</option>
+                                    <option value="fr-FR-HenriNeural">Henri (Homme)</option>
+                                    <option value="fr-FR-EloiseNeural">Eloise (Femme)</option>
+                                    <option value="fr-FR-AlainNeural">Alain (Homme)</option>
+                                    <option value="fr-FR-BrigitteNeural">Brigitte (Femme)</option>
+                                    <option value="fr-FR-CelesteNeural">Celeste (Femme)</option>
+                                    <option value="fr-FR-ClaudeNeural">Claude (Homme)</option>
+                                    <option value="fr-FR-CoraliNeural">Corali (Femme)</option>
+                                    <option value="fr-FR-JacquelineNeural">Jacqueline (Femme)</option>
+                                    <option value="fr-FR-JeromeNeural">Jerome (Homme)</option>
+                                    <option value="fr-FR-JosephineNeural">Josephine (Femme)</option>
+                                    <option value="fr-FR-MauriceNeural">Maurice (Homme)</option>
+                                    <option value="fr-FR-YvesNeural">Yves (Homme)</option>
+                                    <option value="fr-FR-YvetteNeural">Yvette (Femme)</option>
+                                </optgroup>
+                                <optgroup label="German" data-i18n-label="voice.group.german">
+                                    <option value="de-DE-KatjaNeural">Katja (Frau)</option>
+                                    <option value="de-DE-ConradNeural">Conrad (Mann)</option>
+                                    <option value="de-DE-AmalaNeural">Amala (Frau)</option>
+                                    <option value="de-DE-BerndNeural">Bernd (Mann)</option>
+                                    <option value="de-DE-ChristophNeural">Christoph (Mann)</option>
+                                    <option value="de-DE-ElkeNeural">Elke (Frau)</option>
+                                    <option value="de-DE-GiselaNeural">Gisela (Frau)</option>
+                                    <option value="de-DE-KasperNeural">Kasper (Mann)</option>
+                                    <option value="de-DE-KillianNeural">Killian (Mann)</option>
+                                    <option value="de-DE-KlarissaNeural">Klarissa (Frau)</option>
+                                    <option value="de-DE-KlausNeural">Klaus (Mann)</option>
+                                    <option value="de-DE-LouisaNeural">Louisa (Frau)</option>
+                                    <option value="de-DE-MajaNeural">Maja (Frau)</option>
+                                    <option value="de-DE-RalfNeural">Ralf (Mann)</option>
+                                    <option value="de-DE-TanjaNeural">Tanja (Frau)</option>
+                                </optgroup>
+                                <optgroup label="Spanish" data-i18n-label="voice.group.spanish">
+                                    <option value="es-ES-ElviraNeural">Elvira (Mujer)</option>
+                                    <option value="es-ES-AlvaroNeural">Alvaro (Hombre)</option>
+                                    <option value="es-ES-AbrilNeural">Abril (Mujer)</option>
+                                    <option value="es-ES-ArnauNeural">Arnau (Hombre)</option>
+                                    <option value="es-ES-DarioNeural">Dario (Hombre)</option>
+                                    <option value="es-ES-EliasNeural">Elias (Hombre)</option>
+                                    <option value="es-ES-EstrellaNeural">Estrella (Mujer)</option>
+                                    <option value="es-ES-IreneNeural">Irene (Mujer)</option>
+                                    <option value="es-ES-LaiaNeural">Laia (Mujer)</option>
+                                    <option value="es-ES-LiaNeural">Lia (Mujer)</option>
+                                    <option value="es-ES-NilNeural">Nil (Hombre)</option>
+                                    <option value="es-ES-SaulNeural">Saul (Hombre)</option>
+                                    <option value="es-ES-TeoNeural">Teo (Hombre)</option>
+                                    <option value="es-ES-TrianaNeural">Triana (Mujer)</option>
+                                    <option value="es-ES-VeraNeural">Vera (Mujer)</option>
+                                    <option value="es-MX-DaliaNeural">Dalia (Mujer, MX)</option>
+                                    <option value="es-MX-JorgeNeural">Jorge (Hombre, MX)</option>
+                                </optgroup>
+                                <optgroup label="Russian" data-i18n-label="voice.group.russian">
+                                    <option value="ru-RU-SvetlanaNeural">Svetlana Светлана (Женский)</option>
+                                    <option value="ru-RU-DmitryNeural">Dmitry Дмитрий (Мужской)</option>
+                                    <option value="ru-RU-DariyaNeural">Dariya Дарья (Женский)</option>
+                                </optgroup>
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
                             <label class="form-label" for="speed">语速调节</label>
                             <select class="form-select" id="speed">
@@ -1264,6 +1411,7 @@ const HTML_PAGE = `
         let selectedAudioFile = null;
         let transcriptionToken = null;
         let currentLanguage = 'en'; // 默认语言
+        const WORKER_API_KEY_STORAGE_KEY = 'voicecraft-worker-api-key';
 
         // 国际化翻译数据
         const translations = {
@@ -1287,7 +1435,18 @@ const HTML_PAGE = `
                 'header.feature3': 'Completely Free',
                 'header.feature4': 'Download Support',
                 'mode.tts': 'Text to Speech',
-                'mode.transcription': 'Speech to Text'
+                'mode.transcription': 'Speech to Text',
+                'settings.workerApiKey.label': 'Worker API Key',
+                'settings.workerApiKey.placeholder': 'Optional. Required when your Worker API_KEY is enabled.',
+                'settings.workerApiKey.help': 'Used for both TTS and STT requests. Stored only in this browser.',
+                'voice.group.chinese': 'Chinese',
+                'voice.group.english': 'English',
+                'voice.group.japanese': 'Japanese',
+                'voice.group.korean': 'Korean',
+                'voice.group.french': 'French',
+                'voice.group.german': 'German',
+                'voice.group.spanish': 'Spanish',
+                'voice.group.russian': 'Russian'
             },
             zh: {
                 'page.title': 'VoiceCraft - AI驱动的语音处理平台',
@@ -1309,7 +1468,18 @@ const HTML_PAGE = `
                 'header.feature3': '完全免费',
                 'header.feature4': '支持下载',
                 'mode.tts': '文字转语音',
-                'mode.transcription': '语音转文字'
+                'mode.transcription': '语音转文字',
+                'settings.workerApiKey.label': 'Worker API Key',
+                'settings.workerApiKey.placeholder': '可选。仅当你的 Worker 启用了 API_KEY 时需要填写。',
+                'settings.workerApiKey.help': '这个 Key 会同时用于文字转语音和语音转文字请求，只保存在当前浏览器本地。',
+                'voice.group.chinese': '中文',
+                'voice.group.english': '英文',
+                'voice.group.japanese': '日文',
+                'voice.group.korean': '韩文',
+                'voice.group.french': '法文',
+                'voice.group.german': '德文',
+                'voice.group.spanish': '西班牙文',
+                'voice.group.russian': '俄文'
             },
             ja: {
                 'page.title': 'VoiceCraft - AI音声処理プラットフォーム',
@@ -1331,7 +1501,18 @@ const HTML_PAGE = `
                 'header.feature3': '完全無料',
                 'header.feature4': 'ダウンロード対応',
                 'mode.tts': 'テキスト読み上げ',
-                'mode.transcription': '音声テキスト変換'
+                'mode.transcription': '音声テキスト変換',
+                'settings.workerApiKey.label': 'Worker API Key',
+                'settings.workerApiKey.placeholder': '任意。Worker で API_KEY を有効にしている場合のみ必要です。',
+                'settings.workerApiKey.help': 'この Key は音声合成と音声認識の両方で使われ、現在のブラウザにのみ保存されます。',
+                'voice.group.chinese': '中国語',
+                'voice.group.english': '英語',
+                'voice.group.japanese': '日本語',
+                'voice.group.korean': '韓国語',
+                'voice.group.french': 'フランス語',
+                'voice.group.german': 'ドイツ語',
+                'voice.group.spanish': 'スペイン語',
+                'voice.group.russian': 'ロシア語'
             },
             ko: {
                 'page.title': 'VoiceCraft - AI 음성 처리 플랫폼',
@@ -1353,7 +1534,18 @@ const HTML_PAGE = `
                 'header.feature3': '완전 무료',
                 'header.feature4': '다운로드 지원',
                 'mode.tts': '텍스트 음성 변환',
-                'mode.transcription': '음성 텍스트 변환'
+                'mode.transcription': '음성 텍스트 변환',
+                'settings.workerApiKey.label': 'Worker API Key',
+                'settings.workerApiKey.placeholder': '선택 사항입니다. Worker에서 API_KEY를 활성화한 경우에만 필요합니다.',
+                'settings.workerApiKey.help': '이 Key는 TTS와 STT 요청 모두에 사용되며 현재 브라우저에만 저장됩니다.',
+                'voice.group.chinese': '중국어',
+                'voice.group.english': '영어',
+                'voice.group.japanese': '일본어',
+                'voice.group.korean': '한국어',
+                'voice.group.french': '프랑스어',
+                'voice.group.german': '독일어',
+                'voice.group.spanish': '스페인어',
+                'voice.group.russian': '러시아어'
             },
             es: {
                 'page.title': 'VoiceCraft - Plataforma de Procesamiento de Voz con IA',
@@ -1375,7 +1567,18 @@ const HTML_PAGE = `
                 'header.feature3': 'Completamente Gratis',
                 'header.feature4': 'Soporte de Descarga',
                 'mode.tts': 'Texto a Voz',
-                'mode.transcription': 'Voz a Texto'
+                'mode.transcription': 'Voz a Texto',
+                'settings.workerApiKey.label': 'Worker API Key',
+                'settings.workerApiKey.placeholder': 'Opcional. Solo es necesario si tu Worker tiene API_KEY habilitado.',
+                'settings.workerApiKey.help': 'Esta clave se usa tanto para TTS como para STT y solo se guarda en este navegador.',
+                'voice.group.chinese': 'Chino',
+                'voice.group.english': 'Inglés',
+                'voice.group.japanese': 'Japonés',
+                'voice.group.korean': 'Coreano',
+                'voice.group.french': 'Francés',
+                'voice.group.german': 'Alemán',
+                'voice.group.spanish': 'Español',
+                'voice.group.russian': 'Ruso'
             },
             fr: {
                 'page.title': 'VoiceCraft - Plateforme de Traitement Vocal IA',
@@ -1397,7 +1600,18 @@ const HTML_PAGE = `
                 'header.feature3': 'Entièrement Gratuit',
                 'header.feature4': 'Support de Téléchargement',
                 'mode.tts': 'Texte vers Parole',
-                'mode.transcription': 'Parole vers Texte'
+                'mode.transcription': 'Parole vers Texte',
+                'settings.workerApiKey.label': 'Worker API Key',
+                'settings.workerApiKey.placeholder': 'Optionnel. Requis uniquement si votre Worker active API_KEY.',
+                'settings.workerApiKey.help': 'Cette clé est utilisée pour les requêtes TTS et STT et n’est stockée que dans ce navigateur.',
+                'voice.group.chinese': 'Chinois',
+                'voice.group.english': 'Anglais',
+                'voice.group.japanese': 'Japonais',
+                'voice.group.korean': 'Coréen',
+                'voice.group.french': 'Français',
+                'voice.group.german': 'Allemand',
+                'voice.group.spanish': 'Espagnol',
+                'voice.group.russian': 'Russe'
             },
             de: {
                 'page.title': 'VoiceCraft - KI-gestützte Sprachverarbeitungsplattform',
@@ -1419,7 +1633,18 @@ const HTML_PAGE = `
                 'header.feature3': 'Völlig Kostenlos',
                 'header.feature4': 'Download-Unterstützung',
                 'mode.tts': 'Text zu Sprache',
-                'mode.transcription': 'Sprache zu Text'
+                'mode.transcription': 'Sprache zu Text',
+                'settings.workerApiKey.label': 'Worker API Key',
+                'settings.workerApiKey.placeholder': 'Optional. Nur erforderlich, wenn dein Worker API_KEY aktiviert hat.',
+                'settings.workerApiKey.help': 'Dieser Key wird für TTS- und STT-Anfragen verwendet und nur in diesem Browser gespeichert.',
+                'voice.group.chinese': 'Chinesisch',
+                'voice.group.english': 'Englisch',
+                'voice.group.japanese': 'Japanisch',
+                'voice.group.korean': 'Koreanisch',
+                'voice.group.french': 'Französisch',
+                'voice.group.german': 'Deutsch',
+                'voice.group.spanish': 'Spanisch',
+                'voice.group.russian': 'Russisch'
             },
             ru: {
                 'page.title': 'VoiceCraft - ИИ-платформа обработки голоса',
@@ -1441,9 +1666,55 @@ const HTML_PAGE = `
                 'header.feature3': 'Совершенно Бесплатно',
                 'header.feature4': 'Поддержка Загрузки',
                 'mode.tts': 'Текст в Речь',
-                'mode.transcription': 'Речь в Текст'
+                'mode.transcription': 'Речь в Текст',
+                'settings.workerApiKey.label': 'Worker API Key',
+                'settings.workerApiKey.placeholder': 'Необязательно. Нужно только если в вашем Worker включён API_KEY.',
+                'settings.workerApiKey.help': 'Этот ключ используется и для TTS, и для STT и хранится только в текущем браузере.',
+                'voice.group.chinese': 'Китайский',
+                'voice.group.english': 'Английский',
+                'voice.group.japanese': 'Японский',
+                'voice.group.korean': 'Корейский',
+                'voice.group.french': 'Французский',
+                'voice.group.german': 'Немецкий',
+                'voice.group.spanish': 'Испанский',
+                'voice.group.russian': 'Русский'
             }
         };
+
+        function getWorkerApiKeyInput() {
+            return document.getElementById('workerApiKey');
+        }
+
+        function getStoredWorkerApiKey() {
+            return localStorage.getItem(WORKER_API_KEY_STORAGE_KEY) || '';
+        }
+
+        function persistWorkerApiKey(value) {
+            const normalizedValue = String(value || '').trim();
+            if (normalizedValue) {
+                localStorage.setItem(WORKER_API_KEY_STORAGE_KEY, normalizedValue);
+            } else {
+                localStorage.removeItem(WORKER_API_KEY_STORAGE_KEY);
+            }
+            return normalizedValue;
+        }
+
+        function buildWorkerAuthHeaders(apiKey) {
+            const normalizedValue = String(apiKey || '').trim();
+            return normalizedValue ? { 'x-api-key': normalizedValue } : {};
+        }
+
+        function initializeWorkerApiKey() {
+            const workerApiKeyInput = getWorkerApiKeyInput();
+            if (!workerApiKeyInput) {
+                return;
+            }
+
+            workerApiKeyInput.value = getStoredWorkerApiKey();
+            workerApiKeyInput.addEventListener('input', function() {
+                persistWorkerApiKey(workerApiKeyInput.value);
+            });
+        }
 
         // 国际化功能
         function detectLanguage() {
@@ -1492,6 +1763,20 @@ const HTML_PAGE = `
                     element.setAttribute('content', langData[key]);
                 }
             });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (langData[key]) {
+                    element.setAttribute('placeholder', langData[key]);
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-label]').forEach(element => {
+                const key = element.getAttribute('data-i18n-label');
+                if (langData[key]) {
+                    element.setAttribute('label', langData[key]);
+                }
+            });
             
             // 更新页面标题
             if (langData['page.title']) {
@@ -1535,6 +1820,7 @@ const HTML_PAGE = `
             initializeModeSwitcher();
             initializeAudioUpload();
             initializeTokenConfig();
+            initializeWorkerApiKey();
             initializeLanguageSwitcher();
         });
 
@@ -1653,6 +1939,8 @@ const HTML_PAGE = `
             const speed = document.getElementById('speed').value;
             const pitch = document.getElementById('pitch').value;
             const style = document.getElementById('style').value;
+            const workerApiKey = persistWorkerApiKey(getWorkerApiKeyInput()?.value || '');
+            const workerAuthHeaders = buildWorkerAuthHeaders(workerApiKey);
             
             const generateBtn = document.getElementById('generateBtn');
             const resultContainer = document.getElementById('result');
@@ -1708,6 +1996,7 @@ const HTML_PAGE = `
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            ...workerAuthHeaders
                         },
                         body: JSON.stringify({
                             input: text,
@@ -1731,6 +2020,7 @@ const HTML_PAGE = `
                     
                     response = await fetch('/v1/audio/speech', {
                         method: 'POST',
+                        headers: workerAuthHeaders,
                         body: formData
                     });
                 }
@@ -1944,6 +2234,8 @@ const HTML_PAGE = `
             // 获取Token配置
             const tokenOption = document.querySelector('input[name="tokenOption"]:checked').value;
             const customToken = document.getElementById('tokenInput').value;
+            const workerApiKey = persistWorkerApiKey(getWorkerApiKeyInput()?.value || '');
+            const workerAuthHeaders = buildWorkerAuthHeaders(workerApiKey);
             
             if (tokenOption === 'custom' && !customToken.trim()) {
                 alert('请输入自定义Token');
@@ -1975,6 +2267,7 @@ const HTML_PAGE = `
                 
                 const response = await fetch('/v1/audio/transcriptions', {
                     method: 'POST',
+                    headers: workerAuthHeaders,
                     body: formData
                 });
                 
@@ -2120,6 +2413,15 @@ function getRequestApiKey(request) {
     }
 
     return (request.headers.get("x-api-key") || request.headers.get("X-API-Key") || "").trim();
+}
+
+export function buildWorkerAuthHeaderMap(apiKey) {
+    const normalizedValue = String(apiKey || "").trim();
+    return normalizedValue ? { "x-api-key": normalizedValue } : {};
+}
+
+export function getHtmlTemplate() {
+    return HTML_PAGE;
 }
 
 function buildUnauthorizedResponse() {
